@@ -1,102 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
-    <header class="bg-dark text-light w-100">
-        <h1>Weather Dashboard</h1>
+  <body>
+    <header class="row bg-dark text-light w-100 justify-content-center">
+      <h1>Weather Dashboard</h1>
     </header>
 
     <main class="container flex-d row w-100">
-        <div class="col-12 col-md-3">
-            <!--left side contaier-->
+      <div class="col-12 col-md-3">
+        <!--left side contaier-->
 
-            <h3 class="card-header text-uppercase">Search for a City:</h3>
-            <form id="search-form">
-                <input name="cityname" id="city" type="text" autofocus="true" class="form-control" />
-                <button type="submit" class="btn">SEARCH</button>
-            </form>
-            <div class="list-city">
-                <ul class="saved-cities">
+        <h3 class="card-header text-uppercase">Search for a City:</h3>
+        <form id="search-form">
+          <input
+            name="cityname"
+            id="city"
+            placeholder="Enter City Name"
+            type="text"
+            autofocus="true"
+            class="form-control"
+          />
+          <button type="submit" class="btn my-3" id="search">SEARCH</button>
+        </form>
+        <div class="list-savedcity d-flex flex-column" id="buttons"></div>
+      </div>
 
+      <div class="col-12 col-md-9">
+        <!--right side container-->
 
-                </ul>
-            </div>
+        <div class="today px-3 text-dark bg-light">
+          <h3 class="city-text"></h3><img class="icon" src=""></img>
+          <span id="date"></span>
+          <p id="today-temp"></p>
+          <p id="today-wind"></p>
+          <p id="today-hum"></p>
+          <p id="uv">UVI:<span class="today-uv"></span></p>
+          <!-- span to get a width/height and contain UVI # data -->
         </div>
+        <div class="card-container text-light bg-dark">
+          <h4>5 Day forecast</h4>
 
-        <div class="col-12 col-md-9">
-            <!--right side container-->
+          <div class="card bg-dark">
+            <span id="date1"></span><ul data-id="1" class="first">
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
 
-            <div class="today text-dark bg-light">
-                <h3>Today placeholder</h3>
-                <ul>
-                    <li>Temp:</li>
-                    <li>Wind:</li>
-                    <li>Hum:</li>
-                    <li>UVI:</li><span></span> <!-- span to get a width/height and contain humidity # data -->
-                </ul>
-            </div>
-            <div class="card-container text-light bg-dark ">
-                <h4>5 Day forecast</h4>
+          <div class="card bg-dark">
+            <span id="date2"></span><ul data-id="2" class="second">
+              <li>Temp:</li>
+              <li>Wind:</li>
+              <li>Hum:</li>
+            </ul>
+          </div>
 
-                <div class="card bg-dark">
-                    <ul id="" class="">
-                        <li>Temp:</li>
-                        <li>Wind:</li>
-                        <li>Hum:</li>
-                    </ul>
-                </div>
+          <div class="card bg-dark">
+            <span id="date3"></span><ul data-id="3" class="third">
+              <li>Temp:</li>
+              <li>Wind:</li>
+              <li>Hum:</li>
+            </ul>
+          </div>
 
-                <div class="card bg-dark">
-                    <ul id="" class="">
-                        <li>Temp:</li>
-                        <li>Wind:</li>
-                        <li>Hum:</li>
-                    </ul>
-                </div>
+          <div class="card bg-dark">
+            <span id="date4"></span><ul data-id="4" class="fourth">
+              <li>Temp:</li>
+              <li>Wind:</li>
+              <li>Hum:</li>
+            </ul>
+          </div>
 
-
-                <div class="card bg-dark">
-                    <ul id="" class="">
-                        <li>Temp:</li>
-                        <li>Wind:</li>
-                        <li>Hum:</li>
-                    </ul>
-                </div>
-
-                <div class="card bg-dark">
-                    <ul id="" class="">
-                        <li>Temp:</li>
-                        <li>Wind:</li>
-                        <li>Hum:</li>
-                    </ul>
-                </div>
-
-                <div class="card bg-dark">
-                    <ul id="" class="">
-                        <li>Temp:</li>
-                        <li>Wind:</li>
-                        <li>Hum:</li>
-                    </ul>
-                </div>
-            </div>
-
+          <div class="card bg-dark">
+            <span id="date5"></span><ul data-id="5" class="fifth">
+              <li>Temp:</li>
+              <li>Wind:</li>
+              <li>Hum:</li>
+            </ul>
+          </div>
         </div>
+      </div>
     </main>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="./assets/js/script.js"></script>
-</body>
-
+  </body>
 </html>
