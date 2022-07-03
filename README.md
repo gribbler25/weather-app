@@ -1,7 +1,5 @@
 # Weather-App.
 
-<img width="1280" alt="Screen Shot 2022-07-02 at 1 38 15 PM" src="https://user-images.githubusercontent.com/98048059/177057792-d1abbf35-8d74-42ae-b64e-78accf468295.png">
-
 
 
 ## Languages and tools Used:
