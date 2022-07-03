@@ -3,3 +3,33 @@
     margin: 0;
     box-sizing: border-box;
 } */
+
+
+.card ul {
+    list-style: none;
+}
+
+.today-uv {
+    height: 2rem;
+    width: 2rem;
+    background-color: greenyellow;
+}
+
+#today-temp,
+#today-hum,
+#today-wind,
+.today-uv {
+    padding: 10px 0;
+}
+
+.red {
+    height: 2rem;
+    width: 2rem;
+    background-color: indianred;
+}
+.coolBtn{
+    height: 2rem;
+    width:auto;
+    background-color:lightskyblue;
+    margin: 5px;
+}
