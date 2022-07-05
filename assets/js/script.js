@@ -45,8 +45,6 @@ function loadDate() {
 }
 loadDate();
 
-// TODO:create the 5 day forecast function with <ul> event.target fucntion
-
 var searchCity = function (cityInput) {
   //use city name to get lat/ long data
   document.getElementById("buttons").innerHTML = ""; //clear the prior buttons
@@ -103,21 +101,22 @@ var searchCity = function (cityInput) {
           if (uv > 6) {
             $(uvEl).removeClass(".today-uv").addClass("red");
           }
-          //   for (var i = 1; i < 6; i++) {
+          // for(var i = 1; i < 6; i++) {
+
           var temp5 = data.daily[1].temp.day;
 
           var hum5 = data.daily[1].humidity;
 
           var wind5 = data.daily[1].wind_speed;
 
-          var listEl1 = document.querySelector('[data-id="1"] :nth-child(1)');
+          var listEl1 = document.querySelector("[data-id='1'] :nth-child(1)");
           console.log(listEl1);
-          var listEl2 = document.querySelector('[data-id="1"] :nth-child(2)');
-          var listEl3 = document.querySelector('[data-id="1"] :nth-child(3)');
+          var listEl2 = document.querySelector("[data-id='1'] :nth-child(2)");
+          var listEl3 = document.querySelector("[data-id='1'] :nth-child(3)");
           listEl1.textContent = "High Temp:  " + temp5 + "F";
           listEl2.textContent = "Humidity:  " + hum5 + "%";
           listEl3.textContent = "Wind:  " + wind5 + " MPH";
-          //   }
+          // }
         });
       });
     });
