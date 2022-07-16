@@ -1,7 +1,3 @@
-//  My API key: 5b5c4ddd711eb9c884bd57dd6cff32bd
-//current weather api call by city..
-//https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-
 //lat/long api call..more complete data... "current.uvi" value needed from this response..
 //I need a One Call paid subscription now to access the UVI data. if(.clouds.all <50)then change color to red(caution)
 // .weather[0].icon? AND .mian.temp, .main.humidity, .wind.speed
@@ -24,6 +20,7 @@ var iconEl = document.querySelector(".icon"); //a tag for the dynamic icon based
 var array = []; //global empty array for storing city search names
 
 function loadDate() {
+  //load date to today and all the 5 day forecast areas..
   var today = moment().format("dddd MMM DD");
   var date = document.querySelector("#date");
   date.textContent = today;
@@ -45,6 +42,10 @@ function loadDate() {
 }
 
 var searchCity = function (cityInput) {
+  console.log(array);
+  if (!JSON.parse(localStorage.getItem("cities"))) {
+    array = [];
+  }
   //use city name to get lat/ long data
   document.getElementById("buttons").innerHTML = ""; //clear the prior buttons
   var urlAPI1 =
@@ -53,68 +54,72 @@ var searchCity = function (cityInput) {
     "&appid=5b5c4ddd711eb9c884bd57dd6cff32bd";
   //use lat/long data to get the rest of the data from this call:
   fetch(urlAPI1).then(function (response) {
-    var response = response.json().then(function (data) {
-      var city = data[0].name;
-      searchTextEl.textContent = city;
-      if (!array.includes(city)) {
-        array.push(city);
+    var response = response
+      .json()
+      .then(function (data) {
+        var city = data[0].name;
+        searchTextEl.textContent = city;
+        if (!array.includes(city)) {
+          array.push(city);
 
-        localStorage.setItem("cities", JSON.stringify(array));
-      }
-      createButtons();
+          localStorage.setItem("cities", JSON.stringify(array));
+        }
+        createButtons();
 
-      //get lat/ long for call to API for all stats..
-      var latitude = data[0].lat;
-      var longitude = data[0].lon;
-      var urlAPI2 =
-        "https://api.openweathermap.org/data/2.5/onecall?lat=" +
-        latitude +
-        "&lon=" +
-        longitude +
-        "&exclude=hourly,minutely&units=imperial&appid=5b5c4ddd711eb9c884bd57dd6cff32bd";
-      fetch(urlAPI2).then(function (response2) {
-        var response2 = response2.json().then(function (data) {
-          var icono = data.current.weather[0].icon;
-          iconEl.setAttribute(
-            "src",
-            "https://openweathermap.org/img/w/" + icono + ".png"
-          );
-          var temp = Math.round(data.current.temp);
-          tempEl.textContent = "Temp:  " + temp + "F";
-          var hum = data.current.humidity;
-          humEl.textContent = "Humidity:  " + hum + "%";
-          var wind = data.current.wind_speed;
-          windEl.textContent = "Wind:  " + wind + "mph";
-          var uv = data.current.uvi;
-          uvEl.textContent = uv;
-          //change color behind uvi if warning for sunburn
-          if (uv > 6) {
-            $(uvEl).removeClass(".today-uv").addClass("red");
-          }
-          for (var i = 1; i < 6; i++) {
-            var temp5 = data.daily[i].temp.day;
-
-            var hum5 = data.daily[i].humidity;
-
-            var wind5 = data.daily[i].wind_speed;
-
-            var listEl1 = document.querySelector(
-              "[data-id='" + i + "'] :nth-child(1)"
+        //get lat/ long for call to API for all stats..
+        var latitude = data[0].lat;
+        var longitude = data[0].lon;
+        var urlAPI2 =
+          "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+          latitude +
+          "&lon=" +
+          longitude +
+          "&exclude=hourly,minutely&units=imperial&appid=5b5c4ddd711eb9c884bd57dd6cff32bd";
+        fetch(urlAPI2).then(function (response2) {
+          var response2 = response2.json().then(function (data) {
+            var icono = data.current.weather[0].icon;
+            iconEl.setAttribute(
+              "src",
+              "https://openweathermap.org/img/w/" + icono + ".png"
             );
-            console.log(listEl1);
-            var listEl2 = document.querySelector(
-              `[data-id='${i}'] :nth-child(2)`
-            );
-            var listEl3 = document.querySelector(
-              `[data-id='${i}'] :nth-child(3)`
-            );
-            listEl1.textContent = "High Temp:  " + temp5 + "F";
-            listEl2.textContent = "Humidity:  " + hum5 + "%";
-            listEl3.textContent = "Wind:  " + wind5 + " MPH";
-          }
+            var temp = Math.round(data.current.temp);
+            tempEl.textContent = "Temp:  " + temp + "F";
+            var hum = data.current.humidity;
+            humEl.textContent = "Humidity:  " + hum + "%";
+            var wind = data.current.wind_speed;
+            windEl.textContent = "Wind:  " + wind + "mph";
+            var uv = data.current.uvi;
+            uvEl.textContent = uv;
+            //change color behind uvi if over 10=warning for sunburn
+            if (uv > 10) {
+              $(uvEl).removeClass(".today-uv").addClass("red");
+            }
+            for (var i = 1; i < 6; i++) {
+              // use a for loop to render all 5 days of the forecast
+              var temp5 = Math.round(data.daily[i].temp.day);
+
+              var hum5 = data.daily[i].humidity;
+
+              var wind5 = data.daily[i].wind_speed;
+
+              var listEl1 = document.querySelector(
+                "[data-id='" + i + "'] :nth-child(1)" //this is one way to get the string value of i
+              );
+              console.log(listEl1);
+              var listEl2 = document.querySelector(
+                `[data-id='${i}'] :nth-child(2)` //this is another way to get string value(template literal)
+              );
+              var listEl3 = document.querySelector(
+                `[data-id='${i}'] :nth-child(3)`
+              );
+              listEl1.textContent = "High Temp:  " + temp5 + "F";
+              listEl2.textContent = "Humidity:  " + hum5 + "%";
+              listEl3.textContent = "Wind:  " + wind5 + " MPH";
+            }
+          });
         });
-      });
-    });
+      })
+      .catch((err) => alert(err));
   });
 };
 //create the buttons with city names from local storage array..
@@ -131,7 +136,9 @@ var createButtons = function () {
 var load = function () {
   array = JSON.parse(localStorage.getItem("cities"));
   loadDate();
-  createButtons();
+  if (array) {
+    createButtons();
+  }
 };
 
 var savedSearchHandler = function (event) {
@@ -157,20 +164,3 @@ $(".btn").on("click", inputSubmitHandler);
 $("#buttons").on("click", savedSearchHandler); //event listener for the ul element where cities are saved
 
 load();
-
-//this loop almost worked, something wrong with substituting 'i' for the data-id.. needs re-working
-//   for (var i = 1; i < 6; i++) {
-//     var temp5 = data.daily[i].temp.day;
-
-//     var hum5 = data.daily[i].humidity;
-
-//     var wind5 = data.daily[i].wind_speed;
-
-//     var listEl1 = document.querySelector('[data-id="i"] :nth-child(1)');
-//     console.log(listEl1);
-//     var listEl2 = document.querySelector('[data-id="i"] :nth-child(2)');
-//     var listEl3 = document.querySelector('[data-id="i"] :nth-child(3)');
-//     listEl1.textContent = "High Temp:  " + temp5 + "F";
-//     listEl2.textContent = "Humidity:  " + hum5 + "%";
-//     listEl3.textContent = "Wind:  " + wind5 + " MPH";
-//   }
